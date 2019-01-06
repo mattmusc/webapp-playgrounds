@@ -1,14 +1,25 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/bionic64"
-  config.vm.hostname = "developer"
 
-  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.define "backend" do |devmachine|
 
-  config.vm.provision "shell", \
-    inline: "which python || (export DEBIAN_FRONTEND=noninteractive && sudo apt-get -qy install python)"
+    devmachine.vm.box = "ubuntu/bionic64"
+    devmachine.vm.hostname = "devmachine"
 
-  config.vm.provision "ansible" do |ansible|
-    ansible.compatibility_mode = "2.0"
-    ansible.playbook = "developer_machine.yml"
+    devmachine.vm.network "forwarded_port", guest: 8080, host: 8080
+
+    devmachine.vm.provision "shell", \
+            inline: "which python || (export DEBIAN_FRONTEND=noninteractive && sudo apt-get -qy install python)"
+
+    devmachine.vm.provision "docker" do |d|
+      d.build_image "/vagrant/"
+      d.run "29e0b121a37e"
+    end
+
+    devmachine.vm.provision "ansible" do |ansible|
+      ansible.compatibility_mode = "2.0"
+      ansible.playbook = "developer_machine.yml"
+    end
+
   end
+
 end

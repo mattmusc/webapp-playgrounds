@@ -1,5 +1,5 @@
 ---
-- name: deploy war to developer vm
+- name: takes up a development environment
   hosts: all
   become: True
 
@@ -10,12 +10,11 @@
       - url: file:///vagrant/springykotlin.war
 
   tasks:
-
-    - debug:
-        msg: "{{ hostvars[inventory_hostname].ansible_distribution }} \
-              {{ hostvars[inventory_hostname].ansible_distribution_version }}"
+    - name: Start service tomcat, if not started
+      service:
+        name: tomcat
+        state: started
 
   roles:
     - robertdebock.java
     - robertdebock.tomcat
-

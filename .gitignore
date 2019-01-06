@@ -127,3 +127,4 @@ typings/
 .vagrant/
 target/
 developer_environment/roles/
+developer_environment/frontend/
