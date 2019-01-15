@@ -42,6 +42,7 @@ open class ApplicationWebConfig : ApplicationContextAware, WebMvcConfigurer {
                 .apply { prefix = "/views/" }
                 .apply { suffix = ".html" }
                 .apply { templateMode = TemplateMode.HTML }
+                .apply { isCacheable = false }
                 .apply { setApplicationContext(applicationContext) }
     }
 }
