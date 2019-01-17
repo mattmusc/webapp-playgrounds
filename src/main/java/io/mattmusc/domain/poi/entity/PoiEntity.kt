@@ -30,7 +30,6 @@ internal data class PoiEntity(
     )
 
     companion object {
-
         fun fromDto(dto: PoiDto) = PoiEntity(
                 id = dto.id,
                 name = dto.name,

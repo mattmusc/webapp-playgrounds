@@ -13,29 +13,27 @@ import javax.transaction.Transactional
 @Service
 @Transactional
 internal open class JpaPoiService(val poiRepo: PoiRepository, val log: Logger) : PoiService {
-    override fun retrievePoi(cityId: Long): PoiDto? {
-        log.debug("Retrieving poi: {}", cityId)
-
-        return poiRepo.findById(cityId).map { it.toDto() }.orElse(null)
-    }
-
-    override fun retrievePois(): List<PoiDto> {
-        log.debug("Retrieving cities")
-
-        return poiRepo.findAll().map { it.toDto() }
-    }
-
-    override fun updatePoi(id: Long, city: UpdatePoiDto): PoiDto? {
-        log.debug("Updating poi: {} with data: {}", id, city)
-
-        return poiRepo.findById(id)
-                .map { poiRepo.save(PoiEntity.fromDto(city, it)).toDto() }
+    override fun retrievePoi(poiId: Long): PoiDto? {
+        log.debug("Retrieving poi: {}", poiId)
+        return poiRepo.findById(poiId)
+                .map { it.toDto() }
                 .orElse(null)
     }
 
-    override fun addPoi(city: CreatePoiDto): PoiDto {
-        log.debug("Adding Poi: {}", city)
+    override fun retrievePois(): List<PoiDto> {
+        log.debug("Retrieving Points of Interest")
+        return poiRepo.findAll().map { it.toDto() }
+    }
 
-        return poiRepo.save(PoiEntity.fromDto(city)).toDto()
+    override fun updatePoi(id: Long, poiDto: UpdatePoiDto): PoiDto? {
+        log.debug("Updating poi: {} with data: {}", id, poiDto)
+        return poiRepo.findById(id)
+                .map { poiRepo.save(PoiEntity.fromDto(poiDto, it)).toDto() }
+                .orElse(null)
+    }
+
+    override fun addPoi(poiDto: CreatePoiDto): PoiDto {
+        log.debug("Adding Poi: {}", poiDto)
+        return poiRepo.save(PoiEntity.fromDto(poiDto)).toDto()
     }
 }
