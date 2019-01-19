@@ -12,11 +12,11 @@
         <runningAs username="springykt"/>
     </preConditions>
 
-    <changeSet id="000-oracle-create_sequence" author="a" dbms="oracle">
+    <changeSet id="000-oracle-create_sequence" author="mattmusc" dbms="oracle">
         <createSequence sequenceName="hibernate_sequence"/>
     </changeSet>
 
-    <changeSet id="000-all-create_table-poi" author="mmuscella">
+    <changeSet id="000-all-create_table-poi" author="mattmusc">
         <comment>Creates the table poi - Point of Interest</comment>
         <createTable tableName="poi">
             <column name="poi_id" type="bigint" autoIncrement="${autoIncrement}">
