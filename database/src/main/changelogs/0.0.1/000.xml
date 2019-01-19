@@ -13,7 +13,7 @@
     </preConditions>
 
     <changeSet id="000-oracle-create_sequence" author="mattmusc" dbms="oracle">
-        <createSequence sequenceName="hibernate_sequence"/>
+        <createSequence sequenceName="hibernate_sequence" incrementBy="1" startValue="0"/>
     </changeSet>
 
     <changeSet id="000-all-create_table-poi" author="mattmusc">
@@ -32,6 +32,30 @@
         <rollback>
             <dropTable tableName="poi"/>
         </rollback>
+    </changeSet>
+    
+    <changeSet id="001-all-populate_poi_table_with_test_data" author="mattmusc" context="dev">
+        <preConditions>
+            <tableExists tableName="poi"/>
+        </preConditions>
+        <insert tableName="poi">
+            <column name="name">Gibraltar</column>
+            <column name="description">Gibraltar</column>
+            <column name="latitude">50.666667</column>
+            <column name="longitude">3.25</column>
+        </insert>
+        <insert tableName="poi">
+            <column name="name">Milano</column>
+            <column name="description">IT, Milan</column>
+            <column name="latitude">45.466667</column>
+            <column name="longitude">9.2</column>
+        </insert>
+        <insert tableName="poi">
+            <column name="name">New York</column>
+            <column name="description">US</column>
+            <column name="latitude">35.0586111</column>
+            <column name="longitude">-107.5266667</column>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>
