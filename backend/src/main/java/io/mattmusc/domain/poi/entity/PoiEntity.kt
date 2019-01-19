@@ -17,6 +17,7 @@ internal data class PoiEntity(
 		@Column(name = "updated_at") val updatedAt: LocalDateTime = LocalDateTime.now(),
 		@Column(name = "created_at") val createdAt: LocalDateTime = LocalDateTime.now())
 {
+	constructor() : this(name = "", location = Coordinate(0.0, 0.0))
 
 	fun toDto(): PoiDto = PoiDto(
 			id = this.id!!,

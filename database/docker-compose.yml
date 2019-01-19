@@ -9,8 +9,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: dev
+      MYSQL_ROOT_PASSWORD: toor
       MYSQL_DATABASE: springykt
+      MYSQL_USER: springykt
+      MYSQL_PASSWORD: springykt
 
 # Create a dump
 # docker exec some-mysql sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /some/path/on/your/host/all-databases.sql
