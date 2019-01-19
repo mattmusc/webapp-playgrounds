@@ -5,5 +5,5 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@ComponentScan(basePackageClasses = arrayOf(InternalPoiConfig::class))
+@ComponentScan(basePackageClasses = [InternalPoiConfig::class])
 open class PoiConfig

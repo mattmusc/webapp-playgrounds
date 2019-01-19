@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
 @Configuration
-@EnableJpaRepositories(basePackageClasses = arrayOf(PoiRepository::class))
-@EntityScan(basePackageClasses = arrayOf(PoiEntity::class))
+@EnableJpaRepositories(basePackageClasses = [PoiRepository::class])
+@EntityScan(basePackageClasses = [PoiEntity::class])
 @EnableTransactionManagement
 internal open class InternalPoiConfig

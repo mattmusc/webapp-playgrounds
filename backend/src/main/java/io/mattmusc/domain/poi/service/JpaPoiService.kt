@@ -6,13 +6,14 @@ import io.mattmusc.domain.poi.api.dto.PoiDto
 import io.mattmusc.domain.poi.api.dto.UpdatePoiDto
 import io.mattmusc.domain.poi.entity.PoiEntity
 import io.mattmusc.domain.poi.repository.PoiRepository
-import org.apache.logging.log4j.Logger
+import org.slf4j.Logger
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
 @Service
 @Transactional
-internal open class JpaPoiService(val poiRepo: PoiRepository, val log: Logger) : PoiService {
+internal open class JpaPoiService(private val poiRepo: PoiRepository, private val log: Logger) : PoiService {
+
     override fun retrievePoi(poiId: Long): PoiDto? {
         log.debug("Retrieving poi: {}", poiId)
         return poiRepo.findById(poiId)
