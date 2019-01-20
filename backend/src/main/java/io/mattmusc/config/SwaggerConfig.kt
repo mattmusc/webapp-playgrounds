@@ -1,5 +1,6 @@
 package io.mattmusc.config
 
+import com.google.common.base.Predicates
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -25,7 +26,7 @@ open class SwaggerConfig
 		return Docket(DocumentationType.SWAGGER_2)
 				.select()
 				.apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.any())
+				.paths(Predicates.not(PathSelectors.regex("/error"))) // Exclude Spring error controllers
 				.build()
 				.apiInfo(getApiInfo())
 	}

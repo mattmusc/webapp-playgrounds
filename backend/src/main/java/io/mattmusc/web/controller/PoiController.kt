@@ -1,19 +1,19 @@
 package io.mattmusc.web.controller
 
 import io.mattmusc.domain.poi.api.PoiService
+import io.mattmusc.domain.poi.api.dto.CreatePoiDto
+import io.mattmusc.domain.poi.api.dto.UpdatePoiDto
 import io.mattmusc.web.resource.PoiResource
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.hateoas.Resources
 import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
 import org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping(
@@ -47,4 +47,29 @@ class PoiController(private val poiService: PoiService)
 		}
 	}
 
+	@PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE])
+	fun addPoi(@RequestBody city: CreatePoiDto, uriBuilder: UriComponentsBuilder): HttpEntity<PoiResource> {
+		log.debug("Request to add a city")
+
+		val result = poiService.addPoi(city)
+		val resource = PoiResource.fromDto(result)
+		resource.add(linkTo(methodOn(this::class.java).retrievePoi(result.id.toString())).withSelfRel())
+		return ResponseEntity
+				.created(uriBuilder.path("pois/{id}").buildAndExpand(result.id).toUri())
+				.body(resource)
+	}
+
+	@PutMapping("{id}")
+	fun updatePoi(@PathVariable("id") poiId: String, @RequestBody city: UpdatePoiDto): HttpEntity<PoiResource> {
+		log.debug("Request to update poi: {}", poiId)
+
+		val result = poiService.updatePoi(poiId.toLong(), city)
+		if (result != null) {
+			val resource = PoiResource.fromDto(result)
+			resource.add(linkTo(methodOn(this::class.java).retrievePoi(result.id.toString())).withSelfRel())
+			return ResponseEntity.ok(resource)
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+		}
+	}
 }
