@@ -3,6 +3,7 @@ package io.mattmusc.web.controller
 import io.mattmusc.domain.poi.api.PoiService
 import io.mattmusc.domain.poi.api.dto.CreatePoiDto
 import io.mattmusc.domain.poi.api.dto.UpdatePoiDto
+import io.mattmusc.web.POIS_PATH
 import io.mattmusc.web.resource.PoiResource
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
@@ -17,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping(
-		value = ["pois"],
+		value = [POIS_PATH],
 		produces = [MediaType.APPLICATION_JSON_VALUE])
 class PoiController(private val poiService: PoiService)
 {
@@ -49,13 +50,13 @@ class PoiController(private val poiService: PoiService)
 
 	@PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE])
 	fun addPoi(@RequestBody city: CreatePoiDto, uriBuilder: UriComponentsBuilder): HttpEntity<PoiResource> {
-		log.debug("Request to add a city")
+		log.debug("Request to add a poi")
 
 		val result = poiService.addPoi(city)
 		val resource = PoiResource.fromDto(result)
 		resource.add(linkTo(methodOn(this::class.java).retrievePoi(result.id.toString())).withSelfRel())
 		return ResponseEntity
-				.created(uriBuilder.path("pois/{id}").buildAndExpand(result.id).toUri())
+				.created(uriBuilder.path("${POIS_PATH}/{id}").buildAndExpand(result.id).toUri())
 				.body(resource)
 	}
 
