@@ -8,6 +8,10 @@
     <property dbms="oracle" value="false" name="autoIncrement"/>
     <property dbms="mysql" value="true" name="autoIncrement"/>
 
+    <property name="now" value="sysdate" dbms="oracle"/>
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="now" value="now()" dbms="postgresql"/>
+
     <preConditions>
         <runningAs username="springykt"/>
     </preConditions>
@@ -30,8 +34,8 @@
             <column name="description" type="nvarchar(1024)"/>
             <column name="latitude" type="double"/>
             <column name="longitude" type="double"/>
-            <column name="updated_at" type="timestamp"/>
-            <column name="created_at" type="timestamp"/>
+            <column name="updated_at" type="timestamp(6)"/>
+            <column name="created_at" type="timestamp(6)"/>
         </createTable>
         <rollback>
             <dropTable tableName="poi"/>
@@ -48,18 +52,24 @@
             <column name="description">Gibraltar</column>
             <column name="latitude">50.666667</column>
             <column name="longitude">3.25</column>
+            <column name="created_at" type="timestamp(6)" value="${now}"/>
+            <column name="updated_at" type="timestamp(6)" value="${now}"/>
         </insert>
         <insert tableName="poi">
             <column name="name">Milano</column>
             <column name="description">IT, Milan</column>
             <column name="latitude">45.466667</column>
             <column name="longitude">9.2</column>
+            <column name="created_at" type="timestamp(6)" value="${now}"/>
+            <column name="updated_at" type="timestamp(6)" value="${now}"/>
         </insert>
         <insert tableName="poi">
             <column name="name">New York</column>
             <column name="description">US</column>
             <column name="latitude">35.0586111</column>
             <column name="longitude">-107.5266667</column>
+            <column name="created_at" type="timestamp(6)" value="${now}"/>
+            <column name="updated_at" type="timestamp(6)" value="${now}"/>
         </insert>
         <rollback>
             <delete tableName="poi"/>

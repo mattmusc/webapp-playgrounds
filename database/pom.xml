@@ -53,6 +53,8 @@
             <build>
                 <filters>
                     <filter>../backend/src/main/resources/application-dev.properties</filter>
+                    <filter>../application-dev.properties</filter>
+                    <filter>../application.properties</filter>
                 </filters>
 
                 <plugins>

@@ -1,4 +1,4 @@
-package io.mattmusc.converters
+package io.mattmusc.converters.domain
 
 import java.math.BigDecimal
 import javax.persistence.AttributeConverter

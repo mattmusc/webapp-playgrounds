@@ -1,6 +1,6 @@
 package io.mattmusc.domain.location.jpa
 
-import io.mattmusc.converters.DoubleAttributeConverter
+import io.mattmusc.converters.domain.DoubleAttributeConverter
 import io.mattmusc.domain.location.api.CoordinateDto
 import javax.persistence.Convert
 import javax.persistence.Embeddable

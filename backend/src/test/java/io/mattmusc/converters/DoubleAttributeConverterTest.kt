@@ -1,5 +1,6 @@
 package io.mattmusc.converters
 
+import io.mattmusc.converters.domain.DoubleAttributeConverter
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
