@@ -3,7 +3,7 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <property dbms="oracle" value="false" name="autoIncrement"/>
     <property dbms="mysql" value="true" name="autoIncrement"/>
@@ -13,7 +13,11 @@
     </preConditions>
 
     <changeSet id="000-oracle-create_sequence" author="mattmusc" dbms="oracle">
+        <comment>Creates a sequence for Oracle DBMS</comment>
         <createSequence sequenceName="hibernate_sequence" incrementBy="1" startValue="0"/>
+        <rollback>
+            <dropSequence sequenceName="hibernate_sequence"/>
+        </rollback>
     </changeSet>
 
     <changeSet id="000-all-create_table-poi" author="mattmusc">
@@ -38,6 +42,7 @@
         <preConditions>
             <tableExists tableName="poi"/>
         </preConditions>
+        <comment>Populate the Poi table with test data - only run in dev context</comment>
         <insert tableName="poi">
             <column name="name">Gibraltar</column>
             <column name="description">Gibraltar</column>
@@ -56,6 +61,13 @@
             <column name="latitude">35.0586111</column>
             <column name="longitude">-107.5266667</column>
         </insert>
+        <rollback>
+            <delete tableName="poi"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="mattmusc" id="tag_version_0_0_1">
+        <tagDatabase tag="version_0.0.1" />
     </changeSet>
 
 </databaseChangeLog>
