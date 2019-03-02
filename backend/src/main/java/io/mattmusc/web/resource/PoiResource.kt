@@ -2,7 +2,6 @@ package io.mattmusc.web.resource
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import io.mattmusc.converters.web.CoordinateType
 import io.mattmusc.domain.poi.api.dto.PoiDto
 import org.springframework.hateoas.ResourceSupport
 
@@ -14,6 +13,7 @@ constructor(
 		@JsonProperty("desc") val description: String?,
 		@JsonProperty("loc") val location: CoordinateType) : ResourceSupport()
 {
+	// this is used to add static member
 	companion object
 	{
 		fun fromDto(dto: PoiDto): PoiResource =

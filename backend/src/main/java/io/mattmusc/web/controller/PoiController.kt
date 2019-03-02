@@ -14,13 +14,17 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
 
+/**
+ * This controller exposes a CRUD api.
+ *
+ */
 @RestController
 @RequestMapping(
 		value = [POIS_PATH],
 		produces = [MediaType.APPLICATION_JSON_VALUE])
 open class PoiController(private val poiService: PoiService)
 {
-	val log = logger<PoiController>()
+	private val log = logger<PoiController>()
 
 	@GetMapping
 	fun retrievePois(): HttpEntity<Resources<PoiResource>>
@@ -32,38 +36,45 @@ open class PoiController(private val poiService: PoiService)
 	}
 
 	@GetMapping("{id}")
-	fun retrievePoi(@PathVariable("id") poiId: String): HttpEntity<PoiResource> {
+	fun retrievePoi(@PathVariable("id") poiId: String): HttpEntity<PoiResource>
+	{
 		log.debug("Retrieving city: {}", poiId)
 
 		val result = poiService.retrievePoi(poiId.toLong())
-		if (result != null) {
+		if (result != null)
+		{
 			val resource = PoiResource.fromDto(result)
 			return ResponseEntity.ok(resource)
-		} else {
+		} else
+		{
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
 		}
 	}
 
 	@PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE])
-	fun addPoi(@RequestBody city: CreatePoiDto, uriBuilder: UriComponentsBuilder): HttpEntity<PoiResource> {
+	fun addPoi(@RequestBody city: CreatePoiDto, uriBuilder: UriComponentsBuilder): HttpEntity<PoiResource>
+	{
 		log.debug("Request to add a poi")
 
 		val result = poiService.addPoi(city)
 		val resource = PoiResource.fromDto(result)
 		return ResponseEntity
-				.created(uriBuilder.path("${POIS_PATH}/{id}").buildAndExpand(result.id).toUri())
+				.created(uriBuilder.path("$POIS_PATH/{id}").buildAndExpand(result.id).toUri())
 				.body(resource)
 	}
 
 	@PutMapping("{id}")
-	fun updatePoi(@PathVariable("id") poiId: String, @RequestBody city: UpdatePoiDto): HttpEntity<PoiResource> {
+	fun updatePoi(@PathVariable("id") poiId: String, @RequestBody city: UpdatePoiDto): HttpEntity<PoiResource>
+	{
 		log.debug("Request to update poi: {}", poiId)
 
 		val result = poiService.updatePoi(poiId.toLong(), city)
-		if (result != null) {
+		if (result != null)
+		{
 			val resource = PoiResource.fromDto(result)
 			return ResponseEntity.ok(resource)
-		} else {
+		} else
+		{
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
 		}
 	}

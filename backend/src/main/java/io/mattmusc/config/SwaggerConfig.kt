@@ -25,7 +25,7 @@ open class SwaggerConfig
 	{
 		return Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.apis(RequestHandlerSelectors.any())
+				.apis(RequestHandlerSelectors.basePackage("io.mattmusc.web.controller"))
 				.paths(Predicates.not(PathSelectors.regex("/error"))) // Exclude Spring error controllers
 				.build()
 				.apiInfo(getApiInfo())
